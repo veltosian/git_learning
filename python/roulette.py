@@ -4,7 +4,7 @@ from random import randint
 
 def getRoll():
     print("\nLet's roll!")
-    roll = randint(0,1)
+    roll = randint(-1,36)
     if roll == 0 and randint(0,1):
         roll = -1
         print("Number is... 00")
@@ -14,6 +14,7 @@ def getRoll():
 
 class Wager():
     def __init__(self):
+        self.bankRoll = 100
         self.betType = 0
         self.betNum = 0
         self.betColor = "black"
@@ -59,6 +60,7 @@ class Wager():
                            36: "red" }
 
     def getBet(self):
+        # Get the bet type
         while True:
             try:
                 usrInput = int(input("1: Single Number, 2: Red or Black, 3: Odd or Even "))
@@ -78,6 +80,18 @@ class Wager():
         else:
             self.getBetOddEven()
 
+        # Get the bet amount
+        while True:
+            try:
+                self.betAmt = input("How much would you like to bet? (Default 1) ")
+                if self.betAmt == "":
+                    self.betAmt = 1
+                else:
+                    self.betAmt = int(self.betAmt)
+                self.bankRoll -= self.betAmt
+                break
+            except ValueError:
+                print("Invalid input. Try again...")
 
     def getBetColor(self):
         while True:
@@ -148,7 +162,12 @@ class Wager():
                 return False
                 
 
-
+    def updateBankRoll(self, roll):
+        if self.checkBet(roll):
+            if self.betType == 1:
+                self.bankRoll += self.betAmt * 35
+            else: #color and odd/Even pay the same odds so blanket else
+                self.bankRoll += self.betAmt * 2
 
 
 print("Welcome to roulette!")
@@ -161,9 +180,14 @@ roll = getRoll()
 
 
 #Testing
-print(roll)
-print(wager.checkBet(roll))
+if wager.checkBet(roll):
+    print("Congratulations you've won the bet!")
+else:
+    print("Sorry, it appears that you've lost")
 
+wager.updateBankRoll(roll)
+
+print("Your bank roll is now: {}".format(wager.bankRoll))
 
 #Notes:
 # Still need to add the ability to bet a certain amount

@@ -19,9 +19,44 @@ class Wager():
         self.betColor = "black"
         self.betOddEven = "odd"
         self.doubleZero = -1
-#        self.colorTable = {}
-
-        
+        self.colorTable = {-1: "green",
+                           0: "green",
+                           1: "red",
+                           2: "black",
+                           3: "red",
+                           4: "black",
+                           5: "red",
+                           6: "black",
+                           7: "red",
+                           8: "black",
+                           9: "red",
+                           10: "black",
+                           11: "black",
+                           12: "red",
+                           13: "black",
+                           14: "red",
+                           15: "black",
+                           16: "red",
+                           17: "black",
+                           18: "red",
+                           19: "red",
+                           20: "black",
+                           21: "red",
+                           22: "black",
+                           23: "red",
+                           24: "black",
+                           25: "red",
+                           26: "black",
+                           27: "red",
+                           28: "black",
+                           29: "black",
+                           30: "red",
+                           31: "black",
+                           32: "red",
+                           33: "black",
+                           34: "red",
+                           35: "black",
+                           36: "red" }
 
     def getBet(self):
         while True:
@@ -67,16 +102,16 @@ class Wager():
                 if self.betNum == "00":
                     self.betNum = self.doubleZero
                     break
-                elif int(self.betNum) < 0 or int(self.betNum) > 29 : 
+                elif int(self.betNum) < 0 or int(self.betNum) > 36 : 
                     print("That number is out of range. Try again...")
                     continue
                 else:
+                    self.betNum =int(self.betNum)
                     break
             except ValueError:
                 print("Invalid input. Try again...")
 
     def getBetOddEven(self):
-
         while True:
             try:
                 self.betOddEven = input("Would you like to bet on odd or even? ")
@@ -92,30 +127,44 @@ class Wager():
                 print("Invalid input. Try again...")
 
 
-#    def setBetVars(self):
-#        if betType == 2:
-#            self.betColor = 
+    def checkBet(self, roll):
+        if self.betType == 1:
+            if self.betNum == int(roll):
+                return True
+            else:
+                return False
+        elif self.betType == 2:
+            if self.betType == 2:
+                if self.betColor == self.colorTable[roll]:
+                    return True
+                else:
+                    return False
+        else:
+            if self.betOddEven == "even" and roll % 2 == 0:
+                return True
+            elif self.betOddEven == "odd" and roll % 2 == 1:
+                return True
+            else: 
+                return False
+                
+
+
 
 
 print("Welcome to roulette!")
 print("What kind of bet would you like to place?")
-#usrBet = input("(1: Single Number, 2: Red or Black, 3: Odd or Even)")
+
 wager = Wager()
 wager.getBet()
-
-
 
 roll = getRoll()
 
 
 #Testing
+print(roll)
+print(wager.checkBet(roll))
 
 
-
-
-
-
-#Notes Zach: 
-# Check bank balance and pay credit card
-# Check when pigout at the park is
-# Check when we stay at the davenport
+#Notes:
+# Still need to add the ability to bet a certain amount
+# Need to add a bank roll that adds and subtracts based on result of the bet

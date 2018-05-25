@@ -187,8 +187,12 @@ else:
 
 wager.updateBankRoll(roll)
 
-print("Your bank roll is now: {}".format(wager.bankRoll))
+print("Your bank roll is now: {}\n".format(wager.bankRoll))
 
-#Notes:
-# Still need to add the ability to bet a certain amount
-# Need to add a bank roll that adds and subtracts based on result of the bet
+#TODO:
+# Add functionality for multiple bets
+# Add functionality for multiple single number bets
+# Add 3 text-based boxes with cursor icon in them that selects bet when user hits enter
+#  - Create board of 3 boxes
+#  - Add this functionality to a separate file and import it here
+# Create text-based graphics with a gameboard that the user can move a cursor through

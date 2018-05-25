@@ -3,16 +3,26 @@
 class RouletteBoard():
     def __init__(self):
         self.board = []
-    f=open("./assets/gameboard.txt", "r")
+        self.token = []
+        f=open("./assets/gameboard.txt", "r")
         assetLine = f.readline()
-        while assetLine != "":
+        while assetLine != "Asset:gameboard\n":
+            assetLine = f.readline()
+        assetLine = f.readline()
+        while assetLine != "\n":
             self.board.append(assetLine)
             assetLine = f.readline()
             f.close
+        self.board[-1] = self.board[-1].strip()
+        
     def display(self):
-        print("".join(self.board))
+        dispBoard = self.board
+        
+        print("".join(dispBoard))
 
-
+    def getToken(self):
+        pass
+        
 # Testing
 rBoard = RouletteBoard()
 

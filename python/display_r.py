@@ -6,6 +6,7 @@ class RouletteBoard():
         self.token = []
         self.board = self.getAsset("Asset:gameboard")
         self.setupElements()
+        self.setupNavDict()
 
     def setupElements(self):
         '''
@@ -28,7 +29,7 @@ class RouletteBoard():
             self.betElements[row[i]] = [5,4+3*i,2]
 
         self.betElements[-1] = [2,1,2]
-        self.betElements[-0] = [6,1,2]
+        self.betElements[0] = [6,1,2]
         self.betElements["2to1[0]"] = [1,41,4]
         self.betElements["2to1[1]"] = [3,41,4]
         self.betElements["2to1[2]"] = [5,41,4]
@@ -41,6 +42,14 @@ class RouletteBoard():
         self.betElements["BLACK"]   = [9,22,5]
         self.betElements["ODD"]     = [9,29,3]
         self.betElements["19to36"]  = [9,34,6]
+
+    def setupNavDict(self):
+        self.navDict = {0 :[-1,3,6,9,12,15,18,21,24,27,30,33,36,"2to1[0]"],
+                        1 :[-1,2,5,8,11,14,17,20,23,26,29,32,35,"2to1[1]"],
+                        2 :[0,1,4,7,10,13,16,19,22,25,28,31,34,"2to1[2]"],
+                        3 :["1st.12", "2nd.12", "3rd.12"],
+                        4 :["1to18","EVEN","RED", "BLACK", "ODD", "19to36"]
+        }
         
     def replace(self,element):
         #TODO Replace with something instead
@@ -51,7 +60,7 @@ class RouletteBoard():
         col = idx[1]
         width = idx[2]
         for i in range(width):
-            board[row][col+i] = "Z"
+            board[row][col+i] = "#"
         return board
         
     def getAsset(self, asset):
@@ -73,7 +82,11 @@ class RouletteBoard():
         for i in range(len(dispBoard)):
             print("".join(dispBoard[i]))
         
-
+    def navigate(self, curLoc):
+        location = curLoc
+        # TODO Put special case in to jump twice when
+        # up or down from 0 or 00
+        
     def getToken(self):
         pass
         
@@ -82,7 +95,7 @@ rBoard = RouletteBoard()
 
 rBoard.display()
 
-testBoard = rBoard.replace("19to36")
+testBoard = rBoard.replace(4)
 for i in range(len(testBoard)):
     print("".join(testBoard[i]))
 

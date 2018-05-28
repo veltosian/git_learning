@@ -82,7 +82,7 @@ class Wager():
 
         # Get the bet amount
         while True:
-            try:
+            try: #TODO Add check that disallows betting more than user has
                 self.betAmt = input("How much would you like to bet? (Default 1) ")
                 if self.betAmt == "":
                     self.betAmt = 1
@@ -171,23 +171,24 @@ class Wager():
 
 
 print("Welcome to roulette!")
-print("What kind of bet would you like to place?")
-
 wager = Wager()
-wager.getBet()
+while True:
+    print("What kind of bet would you like to place?")
 
-roll = getRoll()
+    wager.getBet()
+
+    roll = getRoll()
 
 
-#Testing
-if wager.checkBet(roll):
-    print("Congratulations you've won the bet!")
-else:
-    print("Sorry, it appears that you've lost")
 
-wager.updateBankRoll(roll)
+    if wager.checkBet(roll):
+        print("Congratulations you've won the bet!")
+    else:
+        print("Sorry, it appears that you've lost")
 
-print("Your bank roll is now: {}\n".format(wager.bankRoll))
+    wager.updateBankRoll(roll)
+
+    print("Your bank roll is now: {}\n".format(wager.bankRoll))
 
 #TODO:
 # Add functionality for multiple bets

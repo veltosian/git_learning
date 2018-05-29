@@ -1,12 +1,17 @@
 #!/usr/bin/python3
 
+import getch
+
 class RouletteBoard():
     def __init__(self):
         self.board = []
+        self.tempBoard = []
         self.token = []
         self.board = self.getAsset("Asset:gameboard")
         self.setupElements()
         self.setupNavDict()
+        self.location = [0,0]
+        self.getch = getch._Getch()
 
     def setupElements(self):
         '''
@@ -52,16 +57,16 @@ class RouletteBoard():
         }
         
     def replace(self,element):
-        #TODO Replace with something instead
-        #     of a placeholder
-        board = self.board
+        #board = self.board[:]
+        #Make a copy of self.board
+        board = copy(self.board)
         idx = self.betElements[element]
         row = idx[0]
         col = idx[1]
         width = idx[2]
         for i in range(width):
             board[row][col+i] = "#"
-        return board
+        self.tempBoard = board
         
     def getAsset(self, asset):
         board = []
@@ -77,30 +82,66 @@ class RouletteBoard():
             f.close
         return board
         
-    def display(self):
-        dispBoard = self.board
+    def display(self,board):
+        dispBoard = board
         for i in range(len(dispBoard)):
             print("".join(dispBoard[i]))
         
-    def navigate(self, curLoc):
-        location = curLoc
+    def navigate(self):
+        navIn = self.getch.__call__()
+        if navIn == "w":
+            if self.location[0] == 0:
+                self.location[0] = 4
+                # TODO: Replace location extremes with len(self.location)
+                # and len(self.location[i]) where appropriate
+            else:
+                self.location[0] -= 1
+        elif navIn == "s":
+            if self.location[0] == 4:
+                self.location[0] = 0
+            elif self.location[0] == 2:
+                self.location[0] += 1
+                self.location[1] = int(self.location[1] / 4)
+            else:
+                self.location[0] += 1
+        elif navIn == "a":
+            if self.location[1] == 0:
+                self.location[1] = len(self.navDict[self.location[0]])-1
+            else:
+                self.location[1] -= 1
+        elif navIn == "d":
+            if self.location[1] == len(self.navDict[self.location[0]]) -1:
+                self.location[1] = 0
+            else:
+                self.location[1] += 1
+        else:
+            pass
+        return self.navDict[self.location[0]][self.location[1]]
+        
         # TODO Put special case in to jump twice when
         # up or down from 0 or 00
         
     def getToken(self):
         pass
-        
+
+def copy(original):
+    board = []
+    for i in range(len(original)):
+        board.append([])
+        for k in range(len(original[i])):
+            board[i].append(original[i][k])
+    return board
+
+
 # Testing
 rBoard = RouletteBoard()
 
-rBoard.display()
+rBoard.display(rBoard.board)
 
-testBoard = rBoard.replace(4)
-for i in range(len(testBoard)):
-    print("".join(testBoard[i]))
-
-print(rBoard.betElements[9])
-
+for i in range(20):
+    element =rBoard.navigate()
+    rBoard.replace(element)
+    rBoard.display(rBoard.tempBoard)
 
 #Where I'm at: I added the elements dictionary so that we have the
 # index and width of each element on the board. We can replace
